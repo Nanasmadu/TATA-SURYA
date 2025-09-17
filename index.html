@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media Pembelajaran Tata Surya</title>
+  <style>
+    * { box-sizing: border-box; }
+    html,body { height:100%; margin:0; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      color: white;
+      overflow-x: hidden; /* biar bisa scroll vertical */
+      background: #001f3f;
+    }
+
+    canvas#stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -2;
+      display:block;
+    }
+    .nebula {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,20,40,0.25), rgba(0,60,120,0.15));
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .content { position: relative; z-index: 1; padding: 20px; max-width: 1100px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 10px; }
+    h1 { margin: 12px 0; font-size: 28px; letter-spacing: 0.6px; }
+    p.lead { margin-top:0; color: rgba(255,255,255,0.85); font-size: 14px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 18px 0 30px;
+    }
+    .planet {
+      background: rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      transition: transform .22s ease, background .2s ease, box-shadow .2s ease;
+      text-align: center;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+      min-height: 140px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:10px;
+    }
+    .planet:hover {
+      transform: translateY(-6px) scale(1.02);
+      background: rgba(255,255,255,0.09);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.45);
+    }
+    .planet-icon { width: 90px; height: 90px; margin: 0 auto; border-radius: 50%; position: relative; }
+    .planet h3 { margin: 0; font-size: 18px; color: #fff; }
+    .planet p { margin: 0; color: rgba(255,255,255,0.9); font-size: 13px; }
+
+    /* Planet styles */
+    .sun { background: radial-gradient(circle at 30% 30%, #fff7b2 0%, #ffd24d 30%, #ff9f1c 60%, #ff6f00 100%); }
+    .mercury { background: radial-gradient(circle at 30% 30%, #e6e6e6, #a9a9a9); }
+    .venus { background: radial-gradient(circle at 30% 30%, #fff4d6 0%, #ffd89a 40%, #d67a18 100%); }
+    .earth { background: radial-gradient(circle at 30% 25%, #7fc9ff 20%, #1f78ff 40%, #07509a 70%); }
+    .mars { background: radial-gradient(circle at 30% 30%, #ffb79e 10%, #d74a3a 60%, #a83a2a 100%); }
+    .jupiter { background: repeating-linear-gradient(to bottom,#f6d7b3 0px,#f6d7b3 8px,#e8c79a 8px,#e8c79a 16px,#d9b27a 16px,#d9b27a 24px); }
+    .saturn { background: linear-gradient(180deg,#f7e6c8,#e9c89a); }
+    .uranus { background: radial-gradient(circle at 30% 30%, #d6fbff 15%, #66e0e0 45%, #1a9fb3 100%); }
+    .neptune { background: radial-gradient(circle at 30% 30%, #bfe9ff 10%, #3fb0ff 40%, #0066cc 100%); }
+
+    #quizEmbed {
+      margin: 20px auto;
+      width: 90%;
+      max-width: 800px;
+      text-align: center;
+      display: none; /* awalnya sembunyi */
+    }
+    #quizEmbed iframe {
+      width: 100%;
+      height: 420px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    button {
+      margin: 8px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      background: #FF851B;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    button:hover { background: #FF4136; }
+  </style>
+</head>
+<body>
+
+  <canvas id="stars"></canvas>
+  <div class="nebula"></div>
+
+  <div class="content">
+    <header>
+      <h1>Media Pembelajaran: Sistem Tata Surya</h1>
+      <p class="lead">Klik planet untuk materi detail atau ikuti kuis interaktif.</p>
+    </header>
+
+    <section class="grid">
+      <div class="planet" onclick="window.location.href='matahari.html'">
+        <div class="planet-icon sun"></div><h3>Matahari</h3>
+        <p>Pusat tata surya, sumber energi.</p>
+      </div>
+      <div class="planet" onclick="window.location.href='merkurius.html'">
+        <div class="planet-icon mercury"></div><h3>Merkurius</h3>
+        <p>Planet terkecil, suhu ekstrem.</p>
+      </div>
+      <div class="planet" onclick="window.location.href='venus.html'">
+        <div class="planet-icon venus"></div><h3>Venus</h3>
+        <p>Saudara Bumi tapi sangat panas.</p>
+      </div>
+      <div class="planet" onclick="window.location.href='bumi.html'">
+        <div class="planet-icon earth"></div><h3>Bumi</h3>
+        <p>Planet kehidupan dengan air cair.</p>
+      </div>
+      <div class="planet" onclick="window.location.href='mars.html'">
+        <div class="planet-icon mars"></div><h3>Mars</h3>
+        <p>Planet merah dengan Olympus Mons.</p>
+      </div>
+      <div class="planet" onclick="window.location.href='jupiter.html'">
+        <div class="planet-icon jupiter"></div><h3>Jupiter</h3>
+        <p>Planet terbesar, Bintik Merah Besar.</p>
+      </div>
+      <div class="planet" onclick="window.location.href='saturnus.html'">
+        <div class="planet-icon saturn"></div><h3>Saturnus</h3>
+        <p>Cincin yang luas dan indah.</p>
+      </div>
+      <div class="planet" onclick="window.location.href='uranus.html'">
+        <div class="planet-icon uranus"></div><h3>Uranus</h3>
+        <p>Sumbu miring hingga 98°.</p>
+      </div>
+      <div class="planet" onclick="window.location.href='neptunus.html'">
+        <div class="planet-icon neptune"></div><h3>Neptunus</h3>
+        <p>Angin tercepat di tata surya.</p>
+      </div>
+    </section>
+
+    <div style="text-align:center; margin-bottom:18px;">
+      <button onclick="startQuiz()">Mulai Quiz 🚀</button>
+    </div>
+
+    <div id="quizEmbed">
+      <iframe style="max-width:100%" src="https://wordwall.net/embed/7da36234ec0e48b7afe6a50d2524a98a?themeId=1&templateId=46&fontStackId=0" width="500" height="380" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <script>
+    function startQuiz(){
+      document.getElementById('quizEmbed').style.display = 'block';
+      document.getElementById('quizEmbed').scrollIntoView({behavior:'smooth'});
+    }
+
+    /* Stars background */
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let W = window.innerWidth, H = window.innerHeight;
+    canvas.width = W; canvas.height = H;
+
+    window.addEventListener('resize', () => {
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = W; canvas.height = H;
+      createStars();
+    });
+
+    let stars = [];
+    function rand(min,max){ return Math.random()*(max-min)+min; }
+    function createStars(){
+      stars = [];
+      for(let i=0;i<150;i++){
+        stars.push({x:rand(0,W),y:rand(0,H),r:rand(0.5,2),alpha:rand(0.2,1)});
+      }
+    }
+    createStars();
+
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      for(const s of stars){
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255,255,255,'+s.alpha+')';
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>
